@@ -6,8 +6,10 @@
   "scripts": {
     "db:migrate": "knex migrate:latest --knexfile db/index.js",
     "db:migrate:make": "knex migrate:make --knexfile db/index.js",
-    "db:reset": "dropdb sfmovies_development; createdb -O sfmovies_user sfmovies_development && npm run db:migrate",
+    "db:reset": "if [ \"$NODE_ENV\" != \"production\" ]; then dropdb $(node -p \"require('./config').DB_NAME\"); npm run db:setup && npm run db:migrate; fi",
     "db:rollback": "knex migrate:rollback --knexfile db/index.js",
+    "db:setup": "if [ \"$NODE_ENV\" != \"production\" ]; then createdb -O $(node -e \"var c = require('./config'); console.log(c.DB_USER, c.DB_NAME);\"); fi",
+    "db:setup:user": "if [ \"$NODE_ENV\" != \"production\" ]; then createuser $(node -p \"require('./config').DB_USER\"); fi",
     "db:seed": "npm run db:reset && knex seed:run --knexfile db/index.js",
     "enforce": "istanbul check-coverage --statement 100 --branch 100 --function 100 --lines 100",
     "lint": "eslint .",
@@ -32,6 +34,8 @@
     "bookshelf": "^0.9.5",
     "hapi": "^13.4.1",
     "hapi-bookshelf-serializer": "^2.1.0",
+    "hapi-format-error": "^1.0.0",
+    "joi": "^8.1.1",
     "knex": "^0.11.5",
     "pg": "^4.5.5"
   },
