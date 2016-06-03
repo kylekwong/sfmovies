@@ -1,3 +1,9 @@
+### 1.1.0 (2016-6-3)
+
+##### New Features
+
+* **filter:** creates GET /movies endpoint to list and filter movies ([687c236b](https://github.com/kylekwong/sfmovies/commit/687c236b876cd94fa764eadd0121eb8c7fd07b35))
+
 ## 1.0.0 (2016-5-27)
 
 ##### New Features
